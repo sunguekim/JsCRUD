@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head') %>
+    <title>admin</title>
+</head>
+<body>
+  <%- include('../partials/nav') %>
+    <div class="container">
+        <div class="container" style="width:600px;">
+            <h2 class="mb-4">유저 관리</h2>
+            <table class="table">
+                <colgroup>
+                    <col width="500px">
+                    <col width="90px">
+                    <col width="90px">
+                </colgroup>
+                <thead class="thead-light">
+                    <tr>
+                      <th scope="col">아이디</th>
+                      <th scope="col"> </th>
+                      <th scope="col"> </th>
+                    </tr>
+                  </thead>
+                <tbody>
+                    <% user.forEach(function(user) { %>
+                        <tr>
+                            <td><%= user.username %></td>
+                            <td>
+                                <button class="btn btn-primary float-right" onclick="location.href='/admin/<%= user._id %>/edit'">수정</button>
+                            </td>
+                            <td>
+                                <form action="/admin/<%= user._id %>?_method=delete" method="post">
+                                    <input class="btn btn-primary float-right" type="submit" value="삭제">
+                                </form>
+                            </td>
+                            
+                        </tr>
+                    <% }) %>
+                </tbody>
+                </table>
+                <% let previous = parseInt(paging.currentPage) > 1 ? parseInt(paging.currentPage) - 1 : 1 %>
+                <% let next = parseInt(paging.currentPage) < paging.totalPage ? parseInt(paging.currentPage) + 1 : paging.totalPage %>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                      <li class="page-item">
+                        <a class="page-link" href="/admin?page=<%=previous%>" aria-label="Previous">
+                          <span aria-hidden="true">&laquo;</span>
+                        </a>
+                      </li>
+                      <% for(let i=1; i<= paging.totalPage; i++) { %>
+                      <li class="page-item"><a class="page-link" href="/admin?page=<%=i%>"><%=i%></a></li>
+                      <% } %>
+                      <li class="page-item">
+                        <a class="page-link" href="/admin?page=<%=next%>" aria-label="Next">
+                          <span aria-hidden="true">&raquo;</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </nav>
+        </div>
+    </div>
+</body>
+</html>
